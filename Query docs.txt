@@ -1,0 +1,59 @@
+SQL Analysis:
+
+1. Monitor Revenue Performance: Query sales by hour, product category, and region to identify gaps.
+select extract(hour from order_datetime) as hr,
+s.category, c.region, sum(total_revenue) as sales, count(order_id) as total_orders
+from sales s
+inner join customer c on c.customer_id = s.customer_id
+group by extract(hour from order_datetime),s.category, c.region
+order by hr, sales desc;
+
+2. Identify Top and Bottom Performers: Find best-selling and slow-moving products.
+a. top 10 best selling products
+select product_id, category, sum(units_sold) as total_unit_sold, sum(total_revenue) as total_sales  
+from sales
+group by product_id, category
+order by total_sales desc
+limit 10;
+
+b. slow-moving products - slow-moving inventory involves identifying products that are not selling as expected and remain in stock for a longer period. 
+select i.product_id, i.category, i.stock_available, 
+coalesce(sum(s.units_sold),0) as total_unit_sold, i.days_in_inventory 
+from inventory i
+left join sales s on s.product_id = i.product_id
+group by i.product_id, i.category, i.stock_available, i.days_in_inventory 
+having coalesce(sum(s.units_sold),0) <10
+order by i.days_in_inventory desc;
+
+3. Analyze Conversion Trends: To analyze conversion trends, the focus is on understanding how effectively visitors are turning into buyers and how this affects sale
+select t.hour, t.traffic_source, t.visitors, t.conversion_rate
+,sum(s.total_revenue) as total_revenue
+,ROUND((sum(s.total_revenue)/t.visitors),2) as sales_per_visitor
+from traffic t
+left join sales s on extract(hour from s.order_datetime) = t.hour
+group by t.hour, t.traffic_source, t.visitors, t.conversion_rate
+order by t.hour;
+
+4. Forecast End-of-Day Revenue: Use historical patterns to predict total revenue based on current performance and Predict EOD revenue using current cumulative revenue and remaining hours.
+	Step 1: Calculate historical hourly contribution
+	Step 2: Calculate cumulative revenue till today
+	Step 3: Forecast end-of-day revenue
+with hourly_performance as
+	(select extract(hour from order_datetime) as hour
+		,sum(total_revenue) as hourly_revenue
+		,sum(sum(total_revenue)) over() as Total_Day_Revenue
+		,Round((sum(total_revenue)/sum(sum(total_revenue)) over()) *100,2) as hourly_percentage
+		from sales
+		where order_datetime < '2024-11-21'
+		group by hour
+		order by hour),
+today_revenue as
+	(select sum(total_revenue) as current_revenue
+		,extract(hour from max(order_datetime)) as final_hour
+		from sales
+		where date(order_datetime) = '2024-11-21')
+select t.current_revenue
+, round((t.current_revenue/hp.hourly_percentage) *100,2) as predicted_eod_revenue
+from today_revenue t
+join hourly_performance hp on hp.hour = t.final_hour;
+
