@@ -9,8 +9,8 @@ The Planning Department set a revenue target of ₹1 crore to be achieved by the
 ### Steps followed 
 
 - Step 1 : Load Data into SQL: The initial step involved importing the CSV dataset into SQL, preparing it for structured analysis and enabling efficient data handling.
-- Step 2 : Create Database: A dedicated database was created to store loan data, ensuring organized storage for streamlined querying and analysis.
-- Step 3 : SQL Analysis: Using SQL, specific queries were designed as per the problem statement to extract required KPIs and insights. The output was stored and documented, establishing a clear basis for loan metrics and trends.
+- Step 2 : Create Database: A dedicated database was created to store Sales data, ensuring organized storage for streamlined querying and analysis.
+- Step 3 : SQL Analysis: Using SQL, specific queries were designed as per the problem statement to extract required KPIs and insights. The output was stored and documented, establishing a clear basis for metrics and trends.
 - Step 4 : Connect SQL to Power BI: The final step was to connect Power BI to the SQL database, allowing the visual dashboard to be directly compared with SQL output for accuracy. This integration enabled real-time data visualization, showcasing insights through interactive graphs and charts in Power BI.
 
 ### SQL analysis 
