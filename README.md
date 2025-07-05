@@ -1,6 +1,8 @@
 
 # E-commerce Revenue Optimization Dashboard
 
+ ![image](https://github.com/user-attachments/assets/14ad64d7-4cf4-4692-9823-db91c7b7a730)
+
 ## Problem Statement
 
 The Planning Department set a revenue target of ₹1 crore to be achieved by the end of the day. However, by the morning analysis, only 67% of the target had been reached. The challenge was to develop a strategy to close this gap by optimizing pricing, driving more traffic, and improving conversion rates.
@@ -145,9 +147,7 @@ Actionable Recommendations:
 
 ▪️ Loyalty Campaigns: Launch targeted loyalty campaigns for Bronze and Platinum customers to improve retention and increase sales.
 
- # Report Snapshot (Power BI DESKTOP)
 
- ![image](https://github.com/user-attachments/assets/14ad64d7-4cf4-4692-9823-db91c7b7a730)
 
 
 
